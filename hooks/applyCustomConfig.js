@@ -569,7 +569,7 @@ var applyCustomConfig = (function(){
 
 
     function ensureBackup(targetFilePath, platform, targetFileName){
-        var backupDirPath = path.join(cwd, 'plugins', context.opts.plugin.id, "backup"),
+        var backupDirPath = path.join(rootdir, "." + context.opts.plugin.id, "backup"),
             backupPlatformPath = path.join(backupDirPath, platform),
             backupFilePath = path.join(backupPlatformPath, targetFileName);
 

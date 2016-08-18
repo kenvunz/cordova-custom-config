@@ -21,7 +21,7 @@ var restoreBackups = (function(){
     /**********************
      * Internal properties
      *********************/
-    var restoreBackups = {}, context, projectName, logFn, settings;
+    var restoreBackups = {}, context, projectName, logFn, settings, rootdir;
 
     var PLATFORM_CONFIG_FILES = {
         "ios":{
@@ -45,10 +45,14 @@ var restoreBackups = (function(){
         var configFiles = PLATFORM_CONFIG_FILES[platform],
             backupFile, backupFileName, backupFilePath, backupFileExists, targetFilePath;
 
+        // make sure backup path exists
+        var backupPath = path.join(rootdir, '.' + context.opts.plugin.id, 'backup');
+        fs.mkdirs(backupPath);
+
         logger.verbose("Checking to see if there are backups to restore...");
         for(backupFile in configFiles){
             backupFileName = parseProjectName(backupFile);
-            backupFilePath = path.join(cwd, 'plugins', context.opts.plugin.id, "backup", platform, backupFileName);
+            backupFilePath = path.join(backupPath, platform, backupFileName);
             backupFileExists = fileUtils.fileExists(backupFilePath);
             if(backupFileExists){
                 targetFilePath = path.join(cwd, 'platforms', platform, parseProjectName(configFiles[backupFile]));
@@ -80,6 +84,7 @@ var restoreBackups = (function(){
 
     restoreBackups.init = function(ctx){
         context = ctx;
+        rootdir = context.opts.projectRoot;
 
         projectName = fileUtils.getProjectName();
         logFn = context.hook === "before_plugin_uninstall" ? logger.log : logger.verbose;

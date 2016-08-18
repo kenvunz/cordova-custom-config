@@ -1,6 +1,8 @@
 cordova-custom-config plugin
 ============================
 
+> This is a fork of [cordova-custom-config](https://github.com/dpa99c/cordova-custom-config) that move the back up folder to project root instead
+
 <!-- START table-of-contents -->
 **Table of Contents**
 
@@ -91,10 +93,10 @@ By default, any changes made by this plugin to platform config files are irrever
     cordova platform rm android && cordova platform add android
 
 However, if you want the changes made to be reversible, you can enable auto-backup/restore functionality by adding the following preference inside the top-level `<widget>` element of your `config.xml`:
-                                                                                                                 
+
     <preference name="cordova-custom-config-autorestore" value="true" />
 
-When the first `prepare` operation runs after the plugin is installed, it will make backup copies of the original configuration files before it makes any modifications. 
+When the first `prepare` operation runs after the plugin is installed, it will make backup copies of the original configuration files before it makes any modifications.
 These backup copies are stored in `plugins/cordova-custom-config/backup/` and will be restored before each `prepare` operation, allowing Cordova to make modifications and then the plugin to make further modifications after the `prepare`.
 
 This means changes made by the plugin are reversible, so removing a custom element from the `config.xml` will remove it from the platform configuration file on the next `prepare` operation and uninstalling the plugin will restore the configuration files to their original state (before the plugin made any modifications).
